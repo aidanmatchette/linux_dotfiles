@@ -20,6 +20,7 @@ opt.undofile = true
 
 opt.hlsearch = false
 opt.ignorecase = true
+opt.incsearch = true
 
 --cursor line
 opt.cursorline = true
@@ -38,3 +39,25 @@ opt.clipboard:append("unnamedplus")
 opt.cmdheight = 1
 
 opt.updatetime = 50
+
+
+-- Highlight on Yank
+local augroup = vim.api.nvim_create_augroup
+
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+function R(name)
+    require("plenary.reload").reload_module(name)
+end
+
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
+})

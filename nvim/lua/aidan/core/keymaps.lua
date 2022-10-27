@@ -44,7 +44,9 @@ keymap("n", "<leader>ts", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<leader>tc", "<cmd>Telescope grep_string<cr>", opts)
 keymap("n", "<leader>tb", "<cmd>Telescope buffers<cr>", opts)
 keymap("n", "<leader>th", "<cmd>Telescope help_tags<cr>", opts)
+
 -- Smart Quit and Save
 --keymap("n", "<leader>q", "<cmd>lua require('frigasack.functions').smart_quit()<cr>", opts)
 keymap("n", "<leader>w", "<cmd>w<CR>", opts)
+keymap("n", "<leader>q", "<cmd>lua require('aidan.core.functions').smart_quit()<cr>", opts)
 return M
