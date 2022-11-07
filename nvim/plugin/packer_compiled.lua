@@ -85,7 +85,6 @@ _G.packer_plugins = {
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
   catppuccin = {
-    config = { "\27LJ\2\nþ\4\0\0\a\0 \0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0026\3\6\0009\3\a\0039\3\b\3'\5\t\0B\3\2\2'\4\n\0&\3\4\3=\3\v\0025\3\f\0005\4\r\0005\5\15\0005\6\14\0=\6\16\0055\6\17\0=\6\18\0055\6\19\0=\6\20\0055\6\21\0=\6\22\5=\5\23\0045\5\25\0005\6\24\0=\6\16\0055\6\26\0=\6\18\0055\6\27\0=\6\20\0055\6\28\0=\6\22\5=\5\29\4=\4\30\3=\3\31\2B\0\2\1K\0\1\0\17integrations\15native_lsp\15underlines\1\2\0\0\14underline\1\2\0\0\14underline\1\2\0\0\14underline\1\0\0\1\2\0\0\14underline\17virtual_text\16information\1\2\0\0\vitalic\rwarnings\1\2\0\0\vitalic\nhints\1\2\0\0\vitalic\verrors\1\0\0\1\2\0\0\vitalic\1\0\1\fenabled\2\1\0\v\15treesitter\2\15ts_rainbow\1\23treesitter_context\1\14telescope\2\vneogit\1\nmason\2\rmarkdown\2\rlsp_saga\1\fharpoon\2\rgitsigns\2\bcmp\2\17compile_path\16/catppuccin\ncache\fstdpath\afn\bvim\15background\1\0\1\tdark\nmocha\1\0\3\16term_colors\2\fflavour\nmocha\27transparent_background\1\nsetup\15catppuccin\frequire\0" },
     loaded = true,
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/catppuccin",
     url = "https://github.com/catppuccin/nvim"
@@ -165,6 +164,11 @@ _G.packer_plugins = {
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
+  ["nvim-jdtls"] = {
+    loaded = true,
+    path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
+    url = "https://github.com/mfussenegger/nvim-jdtls"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -174,6 +178,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-treesitter-context"] = {
+    loaded = true,
+    path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
+    url = "https://github.com/romgrk/nvim-treesitter-context"
   },
   ["nvim-ts-autotag"] = {
     load_after = {},
@@ -225,10 +234,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: catppuccin
-time([[Config for catppuccin]], true)
-try_loadstring("\27LJ\2\nþ\4\0\0\a\0 \0)6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0026\3\6\0009\3\a\0039\3\b\3'\5\t\0B\3\2\2'\4\n\0&\3\4\3=\3\v\0025\3\f\0005\4\r\0005\5\15\0005\6\14\0=\6\16\0055\6\17\0=\6\18\0055\6\19\0=\6\20\0055\6\21\0=\6\22\5=\5\23\0045\5\25\0005\6\24\0=\6\16\0055\6\26\0=\6\18\0055\6\27\0=\6\20\0055\6\28\0=\6\22\5=\5\29\4=\4\30\3=\3\31\2B\0\2\1K\0\1\0\17integrations\15native_lsp\15underlines\1\2\0\0\14underline\1\2\0\0\14underline\1\2\0\0\14underline\1\0\0\1\2\0\0\14underline\17virtual_text\16information\1\2\0\0\vitalic\rwarnings\1\2\0\0\vitalic\nhints\1\2\0\0\vitalic\verrors\1\0\0\1\2\0\0\vitalic\1\0\1\fenabled\2\1\0\v\15treesitter\2\15ts_rainbow\1\23treesitter_context\1\14telescope\2\vneogit\1\nmason\2\rmarkdown\2\rlsp_saga\1\fharpoon\2\rgitsigns\2\bcmp\2\17compile_path\16/catppuccin\ncache\fstdpath\afn\bvim\15background\1\0\1\tdark\nmocha\1\0\3\16term_colors\2\fflavour\nmocha\27transparent_background\1\nsetup\15catppuccin\frequire\0", "config", "catppuccin")
-time([[Config for catppuccin]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-treesitter ]]
