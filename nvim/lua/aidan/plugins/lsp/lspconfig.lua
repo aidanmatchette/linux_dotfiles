@@ -6,12 +6,6 @@ local function start_language_server(pattern, callback)
     })
 end
 
--- JAVA
-local _jdtls, jdtls = pcall(require, "lsp.configs.jdtls")
-if _jdtls and type(jdtls) ~= 'boolean' then
-    start_language_server('java', jdtls.start)
-end
-
 -- import lspconfig plugin safely
 local lspconfig_status, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status then
@@ -71,55 +65,3 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- configure html server
-lspconfig["html"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- configure typescript server with plugin
-typescript.setup({
-    server = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-    },
-})
-
--- configure css server
-lspconfig["cssls"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- configure tailwindcss server
-lspconfig["tailwindcss"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- configure pyright
-lspconfig["pyright"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- configure lua server (with special settings)
-lspconfig["sumneko_lua"].setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = { -- custom settings for lua
-        Lua = {
-            -- make the language server recognize "vim" global
-            diagnostics = {
-                globals = { "vim" },
-            },
-            workspace = {
-                -- make language server aware of runtime files
-                library = {
-                    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                    [vim.fn.stdpath("config") .. "/lua"] = true,
-                },
-            },
-        },
-    },
-})
