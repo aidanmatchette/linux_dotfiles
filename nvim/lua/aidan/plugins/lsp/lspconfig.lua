@@ -1,37 +1,77 @@
-local function start_language_server(pattern, callback)
-    vim.api.nvim_create_autocmd({ "FileType" }, {
-        pattern = pattern,
-        callback = callback,
-        desc = "Start language server: " .. pattern
-    })
+local M = {}
+
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not status_cmp_ok then
+	return
+end
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+
+M.setup = function()
+
+    local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
+    for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+    end
+
+	local config = {
+		-- disable virtual text
+		virtual_lines = false,
+		virtual_text = false,
+		-- virtual_text = {
+		--   -- spacing = 7,
+		--   -- update_in_insert = false,
+		--   -- severity_sort = true,
+		--   -- prefix = "<-",
+		--   prefix = " ●",
+		--   source = "if_many", -- Or "always"
+		--   -- format = function(diag)
+		--   --   return diag.message .. "blah"
+		--   -- end,
+		-- },
+
+		-- show signs
+		signs = {
+			active = signs,
+		},
+		update_in_insert = true,
+		underline = true,
+		severity_sort = true,
+		float = {
+			focusable = true,
+			style = "minimal",
+			border = "rounded",
+			-- border = {"▄","▄","▄","█","▀","▀","▀","█"},
+			source = "if_many", -- Or "always"
+			header = "",
+			prefix = "",
+			-- width = 40,
+		},
+	}
+
+	vim.diagnostic.config(config)
+
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+		border = "rounded",
+		-- width = 60,
+		-- height = 30,
+	})
+
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+		border = "rounded",
+		-- width = 60,
+		-- height = 30,
+	})
 end
 
--- import lspconfig plugin safely
-local lspconfig_status, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status then
-    return
-end
+local function lsp_keymaps(bufnr)
 
--- import cmp-nvim-lsp plugin safely
-local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_nvim_lsp_status then
-    return
-end
+    local keymap = vim.keymap -- for conciseness
+	local opts = { noremap = true, silent = true }
 
--- import typescript plugin safely
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-    return
-end
-
-local keymap = vim.keymap -- for conciseness
-
--- enable keybinds only for when lsp server available
-local on_attach = function(client, bufnr)
-    -- keybind options
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-
-    -- set keybinds
     keymap.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
     keymap.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- got to declaration
     keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
@@ -45,23 +85,24 @@ local on_attach = function(client, bufnr)
     keymap.set("n", "<C-j>", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
     keymap.set("n", "H", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
     keymap.set("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", opts) -- see outline on right hand side
-
-    -- typescript specific keymaps (e.g. rename file and update imports)
-    if client.name == "tsserver" then
-        keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-        keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
-        keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
-    end
 end
 
--- used to enable autocompletion (assign to every lsp server config)
-local capabilities = cmp_nvim_lsp.default_capabilities()
+M.on_attach = function(client, bufnr)
+	lsp_keymaps(bufnr)
 
--- Change the Diagnostic symbols in the sign column (gutter)
--- (not in youtube nvim video)
-local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+	if client.name == "jdtls" then
+		require("jdtls").setup_dap({ hotcodereplace = "auto" })
+		require("jdtls.dap").setup_dap_main_class_configs()
+	end
+	client.server_capabilities.document_formatting = true
 end
 
+
+function M.remove_augroup(name)
+	if vim.fn.exists("#" .. name) == 1 then
+		vim.cmd("au! " .. name)
+	end
+end
+
+
+return M
