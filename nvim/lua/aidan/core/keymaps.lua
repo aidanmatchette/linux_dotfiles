@@ -41,9 +41,7 @@ keymap("n", "<leader>u", ":UndotreeShow<CR>", opts)
 -- Telescope
 keymap("n", "<leader>tf", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<leader>ts", "<cmd>Telescope live_grep<cr>", opts)
-keymap("n", "<leader>tc", "<cmd>Telescope grep_string<cr>", opts)
-keymap("n", "<leader>tb", "<cmd>Telescope buffers<cr>", opts)
-keymap("n", "<leader>th", "<cmd>Telescope help_tags<cr>", opts)
+keymap("n", "<leader>tg", "<cmd>Telescope grep_string<cr>", opts)
 
 -- Smart Quit and Save
 --keymap("n", "<leader>q", "<cmd>lua require('frigasack.functions').smart_quit()<cr>", opts)

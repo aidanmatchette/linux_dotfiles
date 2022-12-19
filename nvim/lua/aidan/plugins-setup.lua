@@ -34,6 +34,9 @@ return packer.startup(function(use)
     use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
     use({ "catppuccin/nvim", as = "catppuccin" })
+    use("folke/tokyonight.nvim")
+    use("gruvbox-community/gruvbox")
+    use("rebelot/kanagawa.nvim")
 
     use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
@@ -64,14 +67,13 @@ return packer.startup(function(use)
     use("rafamadriz/friendly-snippets") -- useful snippets
 
     -- managing & installing lsp servers, linters & formatters
-	use({
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"jayp0521/mason-null-ls.nvim",
-		"jayp0521/mason-nvim-dap.nvim",
-	})
-	use("mfussenegger/nvim-dap")
-	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
+    use({
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "jayp0521/mason-nvim-dap.nvim",
+    })
+    use("mfussenegger/nvim-dap")
+    use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
     -- configuring lsp servers
     use("neovim/nvim-lspconfig") -- easily configure language servers
     use("hrsh7th/cmp-nvim-lsp") -- for autocompletion

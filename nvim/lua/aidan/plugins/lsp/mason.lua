@@ -20,7 +20,6 @@ end
 
 local servers = {
     "jdtls",
-    "jsonls",
     "sumneko_lua",
     "pyright",
     "html",
@@ -34,11 +33,8 @@ local debuggers = {
 }
 
 local null_ls = {
-    "autopep8",
     "flake8",
-    "djlint",
     "stylua",
-    "jq",
     "prettier", -- ts/js formatter
     "black",
 }
